@@ -1,0 +1,283 @@
+:root {
+  color: #1c1712;
+  background: #1c1712;
+  font-family: "Segoe UI", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+}
+
+button,
+textarea {
+  font: inherit;
+}
+
+button {
+  border: 1px solid #d9cfc3;
+  background: #fffdf9;
+  color: #1c1712;
+  border-radius: 999px;
+  padding: 0.45rem 0.8rem;
+  cursor: pointer;
+}
+
+button:hover {
+  border-color: #1c1712;
+}
+
+button:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #9a3412;
+  outline-offset: 2px;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 440px minmax(0, 1fr);
+  height: 100%;
+}
+
+.desk {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  height: 100%;
+  overflow: auto;
+  padding: 1.4rem 1.25rem 1.6rem;
+  background:
+    linear-gradient(180deg, rgba(255, 250, 243, 0.04), transparent 90px),
+    #241f1a;
+  color: #f6efe6;
+}
+
+.mast h1,
+.proof h2,
+.personal h2,
+.drafts h2,
+.stage-copy h2 {
+  font-family: "Palatino Linotype", Palatino, Georgia, serif;
+  font-weight: 600;
+  margin: 0;
+}
+
+.mark {
+  margin: 0 0 0.35rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: #e7b39a;
+}
+
+.mast h1 {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.lede,
+.hint,
+.status,
+.quiet,
+.notice,
+.stage-copy p {
+  margin: 0;
+  color: #d9cec2;
+  line-height: 1.45;
+}
+
+.lede {
+  margin-top: 0.55rem;
+  font-size: 0.95rem;
+}
+
+.lang {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.lang button {
+  background: transparent;
+  color: #f6efe6;
+  border-color: #5c5148;
+}
+
+.lang button.on {
+  background: #f3eadf;
+  color: #1c1712;
+  border-color: #f3eadf;
+}
+
+.paper {
+  display: block;
+  background: #f7f1e8;
+  color: #1c1712;
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+}
+
+.paper textarea {
+  width: 100%;
+  min-height: 210px;
+  resize: vertical;
+  border: 0;
+  margin: 0;
+  padding: 1rem 1rem 0.8rem;
+  border-radius: 18px;
+  background: transparent;
+  color: #1c1712;
+  font-family: "Palatino Linotype", Palatino, Georgia, serif;
+  font-size: 1.2rem;
+  line-height: 1.45;
+}
+
+.meter {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.count {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.95rem;
+}
+
+.count.hot,
+.status.bad {
+  color: #ffb4a2;
+}
+
+.actions,
+.site-actions,
+.word-row,
+.suggestions,
+.personal li,
+.drafts li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.primary {
+  background: #9a3412;
+  border-color: #9a3412;
+  color: #fffaf6;
+}
+
+.primary:hover {
+  background: #7c2d12;
+}
+
+.notice {
+  min-height: 1.3rem;
+  font-size: 0.86rem;
+}
+
+.proof,
+.personal,
+.drafts {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.proof h2,
+.personal h2,
+.drafts h2 {
+  font-size: 1.15rem;
+}
+
+.issues,
+.personal ul,
+.drafts ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.issues li,
+.personal li,
+.drafts li {
+  background: rgba(255, 250, 243, 0.05);
+  border: 1px solid rgba(243, 234, 223, 0.12);
+  border-radius: 14px;
+  padding: 0.65rem 0.7rem;
+}
+
+.issues li {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.word-row {
+  justify-content: space-between;
+}
+
+.word-row strong {
+  font-family: "Palatino Linotype", Palatino, Georgia, serif;
+  font-size: 1.05rem;
+  text-decoration: underline wavy #e7b39a;
+  text-underline-offset: 0.18em;
+}
+
+.suggestions button,
+.personal button,
+.drafts button,
+.word-row button {
+  background: transparent;
+  color: #f6efe6;
+  border-color: #6b5e54;
+  padding: 0.28rem 0.65rem;
+}
+
+.draft {
+  flex: 1;
+  text-align: left;
+  border-radius: 10px;
+}
+
+.stage {
+  background: #0e0c0a;
+  color: #f6efe6;
+  min-width: 0;
+}
+
+.stage-copy {
+  max-width: 28rem;
+  padding: 3rem 2rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.stage-copy h2 {
+  font-size: 2.2rem;
+}
+
+.stage-live {
+  height: 100%;
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
