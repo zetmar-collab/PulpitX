@@ -22,7 +22,8 @@ body {
 }
 
 button,
-textarea {
+textarea,
+input {
   font: inherit;
 }
 
@@ -35,20 +36,30 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+button:hover:not(:disabled) {
   border-color: #1c1712;
 }
 
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
 button:focus-visible,
-textarea:focus-visible {
+textarea:focus-visible,
+input:focus-visible,
+summary:focus-visible,
+.splitter:focus-visible {
   outline: 2px solid #9a3412;
   outline-offset: 2px;
 }
 
 .app {
   display: grid;
-  grid-template-columns: 440px minmax(0, 1fr);
+  /* --sidebar ustawia App.tsx; ta sama wartość trafia do Rust, który układa widok X. */
+  grid-template-columns: var(--sidebar, 440px) minmax(0, 1fr);
   height: 100%;
+  position: relative;
 }
 
 .desk {
@@ -58,6 +69,9 @@ textarea:focus-visible {
   height: 100%;
   overflow: auto;
   padding: 1.4rem 1.25rem 1.6rem;
+  /* Pas pod uchwyt zmiany szerokości, żeby nie nachodził na pasek przewijania. */
+  border-right: 6px solid #1c1712;
+  scrollbar-width: thin;
   background:
     linear-gradient(180deg, rgba(255, 250, 243, 0.04), transparent 90px),
     #241f1a;
@@ -66,8 +80,7 @@ textarea:focus-visible {
 
 .mast h1,
 .proof h2,
-.personal h2,
-.drafts h2,
+.thread h2,
 .stage-copy h2 {
   font-family: "Palatino Linotype", Palatino, Georgia, serif;
   font-weight: 600;
@@ -163,8 +176,10 @@ textarea:focus-visible {
 .site-actions,
 .word-row,
 .suggestions,
-.personal li,
-.drafts li {
+.list li,
+.part-row,
+.inline-form,
+.toolbar {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
@@ -187,21 +202,26 @@ textarea:focus-visible {
 }
 
 .proof,
-.personal,
-.drafts {
+.thread {
   display: grid;
   gap: 0.55rem;
 }
 
 .proof h2,
-.personal h2,
-.drafts h2 {
+.thread h2 {
   font-size: 1.15rem;
 }
 
+.proof h3 {
+  margin: 0.4rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #e7b39a;
+}
+
 .issues,
-.personal ul,
-.drafts ul {
+.list,
+.thread-parts {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -210,8 +230,8 @@ textarea:focus-visible {
 }
 
 .issues li,
-.personal li,
-.drafts li {
+.list li,
+.thread-parts li {
   background: rgba(255, 250, 243, 0.05);
   border: 1px solid rgba(243, 234, 223, 0.12);
   border-radius: 14px;
@@ -235,9 +255,11 @@ textarea:focus-visible {
 }
 
 .suggestions button,
-.personal button,
-.drafts button,
-.word-row button {
+.list button,
+.word-row button,
+.part-row button,
+.ghost,
+.chips button {
   background: transparent;
   color: #f6efe6;
   border-color: #6b5e54;
@@ -246,11 +268,174 @@ textarea:focus-visible {
 
 .draft {
   flex: 1;
+  min-width: 0;
   text-align: left;
   border-radius: 10px;
+  display: grid;
+  gap: 0.15rem;
+}
+
+.draft small {
+  color: #b8aa9c;
+  font-size: 0.75rem;
+}
+
+.list li.done {
+  opacity: 0.6;
+}
+
+.primary.soft {
+  background: transparent;
+  color: #ffd9c7;
+}
+
+.primary.soft:hover:not(:disabled) {
+  background: #7c2d12;
+  color: #fffaf6;
+}
+
+.toolbar {
+  justify-content: space-between;
+}
+
+.undo {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.7rem;
+  border-radius: 12px;
+  background: rgba(231, 179, 154, 0.14);
+  border: 1px solid rgba(231, 179, 154, 0.35);
+  font-size: 0.86rem;
+}
+
+.undo button {
+  padding: 0.25rem 0.7rem;
+}
+
+.style-msg {
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.style-msg code {
+  margin-left: 0.25rem;
+  padding: 0.05rem 0.3rem;
+  border-radius: 6px;
+  background: rgba(255, 250, 243, 0.1);
+  white-space: pre;
+}
+
+.thread-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.check {
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: center;
+  font-size: 0.86rem;
+  color: #d9cec2;
+}
+
+.thread-parts {
+  counter-reset: part;
+}
+
+.thread-parts li {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.part-text {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-family: "Palatino Linotype", Palatino, Georgia, serif;
+  line-height: 1.4;
+}
+
+.part-row {
+  justify-content: space-between;
+}
+
+.panel {
+  border-top: 1px solid rgba(243, 234, 223, 0.12);
+  padding-top: 0.6rem;
+}
+
+.panel[open] {
+  padding-bottom: 0.2rem;
+}
+
+.panel > summary {
+  cursor: pointer;
+  font-family: "Palatino Linotype", Palatino, Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  list-style-position: inside;
+}
+
+.panel > :not(summary) {
+  margin-top: 0.55rem;
+}
+
+.inline-form input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid #5c5148;
+  border-radius: 10px;
+  padding: 0.4rem 0.6rem;
+  background: rgba(255, 250, 243, 0.06);
+  color: #f6efe6;
+  color-scheme: dark;
+}
+
+.chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.chips li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.15rem 0.2rem 0.15rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(243, 234, 223, 0.18);
+}
+
+.chips button {
+  padding: 0 0.45rem;
+  line-height: 1.4;
+}
+
+.splitter {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  cursor: col-resize;
+  z-index: 2;
+  touch-action: none;
+}
+
+.splitter:hover,
+.splitter:focus-visible {
+  background: rgba(231, 179, 154, 0.55);
 }
 
 .stage {
+  grid-column: 2;
   background: #0e0c0a;
   color: #f6efe6;
   min-width: 0;

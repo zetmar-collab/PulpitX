@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Gotowe pliki .exe trzymamy poza gitem (GitHub Releases)
+release/
+
+# Lokalne ustawienia Claude Code
+.claude/

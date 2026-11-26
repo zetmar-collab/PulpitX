@@ -1,6 +1,6 @@
 [package]
 name = "pulpitx"
-version = "0.1.0"
+version = "0.2.0"
 description = "Pulpit do konta X ze sprawdzaniem pisowni"
 authors = ["you"]
 edition = "2024"
@@ -22,7 +22,13 @@ tauri = { version = "2", features = ["unstable"] }
 tauri-plugin-opener = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+spellbook = "0.4.2"
+tauri-plugin-notification = "2"
 
+
+# Słownik ładuje się szybko także w trybie deweloperskim.
+[profile.dev.package.spellbook]
+opt-level = 3
 
 # Read the optimization guideline for more details: https://tauri.app/concept/size/#cargo-configuration
 [profile.release]
